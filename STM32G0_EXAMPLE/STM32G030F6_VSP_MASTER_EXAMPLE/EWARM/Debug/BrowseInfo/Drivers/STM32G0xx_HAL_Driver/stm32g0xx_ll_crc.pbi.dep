@@ -1,0 +1,19 @@
+D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\Debug\BrowseInfo\Drivers\STM32G0xx_HAL_Driver\stm32g0xx_ll_crc.pbi: \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\Drivers\STM32G0xx_HAL_Driver\Src\stm32g0xx_ll_crc.c \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\STM32G0xx_HAL_Driver\Inc\stm32g0xx_ll_crc.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Device\ST\STM32G0xx\Include\stm32g0xx.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Device\ST\STM32G0xx\Include\stm32g030xx.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\core_cm0plus.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\stdint.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\ycheck.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\yvals.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Defaults.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Config_Full.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Product.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\cmsis_version.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\cmsis_compiler.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\cmsis_iccarm.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\aarch32\iccarm_builtin.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\mpu_armv7.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Device\ST\STM32G0xx\Include\system_stm32g0xx.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32G0_EXAMPLE\STM32G030F6_VSP_MASTER_EXAMPLE\EWARM\..\..\Drivers\STM32G0xx_HAL_Driver\Inc\stm32g0xx_ll_bus.h

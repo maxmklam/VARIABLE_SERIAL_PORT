@@ -1,0 +1,70 @@
+Name	Value	Access	
+CR1	0x0000'0081	ReadWrite	
+     UIFREMAP	0	ReadWrite	
+     CKD	0x0	ReadWrite	
+     ARPE	1	ReadWrite	
+     CMS	0x0	ReadWrite	
+     DIR	0	ReadWrite	
+     OPM	0	ReadWrite	
+     URS	0	ReadWrite	
+     UDIS	0	ReadWrite	
+     CEN	1	ReadWrite	
+CR2	0x0000'0000	ReadWrite	
+SMCR	0x0000'0054	ReadWrite	
+DIER	0x0000'0202	ReadWrite	
+     TDE	0	ReadWrite	
+     COMDE	0	ReadWrite	
+     CC4DE	0	ReadWrite	
+     CC3DE	0	ReadWrite	
+     CC2DE	0	ReadWrite	
+     CC1DE	1	ReadWrite	
+     UDE	0	ReadWrite	
+     BIE	0	ReadWrite	
+     TIE	0	ReadWrite	
+     COMIE	0	ReadWrite	
+     CC4IE	0	ReadWrite	
+     CC3IE	0	ReadWrite	
+     CC2IE	0	ReadWrite	
+     CC1IE	1	ReadWrite	
+     UIE	0	ReadWrite	
+SR	0x0003'025d	ReadWrite	
+     CC6IF	1	ReadWrite	
+     CC5IF	1	ReadWrite	
+     SBIF	0	ReadWrite	
+     CC4OF	0	ReadWrite	
+     CC3OF	0	ReadWrite	
+     CC2OF	0	ReadWrite	
+     CC1OF	1	ReadWrite	
+     B2IF	0	ReadWrite	
+     BIF	0	ReadWrite	
+     TIF	1	ReadWrite	
+     COMIF	0	ReadWrite	
+     CC4IF	1	ReadWrite	
+     CC3IF	1	ReadWrite	
+     CC2IF	1	ReadWrite	
+     CC1IF	0	ReadWrite	
+     UIF	1	ReadWrite	
+EGR	WWWWWWWW	WriteOnly	
+CCMR1_Output	0x0000'1801	ReadWrite	
+CCMR1_Input	0x0000'1801	ReadWrite	
+CCMR2_Output	0x0000'0000	ReadWrite	
+CCMR2_Input	0x0000'0000	ReadWrite	
+CCER	0x0000'001b	ReadWrite	
+CNT	0x0000'14f3	ReadWrite	
+PSC	0x0000'0000	ReadWrite	
+ARR	0x0000'ffff	ReadWrite	
+RCR	0x0000'0000	ReadWrite	
+CCR1	0x0000'002e	ReadWrite	
+CCR2	159	ReadWrite	
+CCR3	0x0000'0000	ReadWrite	
+CCR4	0x0000'0000	ReadWrite	
+BDTR	0x0200'a000	ReadWrite	
+DCR	0x0000'0000	ReadWrite	
+DMAR	0x0000'0081	ReadWrite	
+OR1	0x0000'0000	ReadWrite	
+CCMR3_Output	0x0000'0000	ReadWrite	
+CCR5	0x0000'0000	ReadWrite	
+CCR6	0x0000'0000	ReadWrite	
+AF1	0x0000'0001	ReadWrite	
+AF2	0x0000'0001	ReadWrite	
+TISEL	0x0000'0000	ReadWrite	

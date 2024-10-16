@@ -1,0 +1,18 @@
+D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\Debug\BrowseInfo\Drivers\STM32H7xx_HAL_Driver\stm32h7xx_ll_pwr.pbi: \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_ll_pwr.c \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_pwr.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h750xx.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\core_cm7.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\stdint.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\ycheck.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\yvals.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Defaults.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Config_Full.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Product.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\cmsis_version.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\cmsis_compiler.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\cmsis_iccarm.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\aarch32\iccarm_builtin.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Include\mpu_armv7.h \
+  D:\GITHUB_OPEN_PROJECT\VARIABLE_SERIAL_PORT\STM32H7_EXAMPLE\STM32H750VB_VSP_CLIENT_EXAMPLE\EWARM\..\..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\system_stm32h7xx.h

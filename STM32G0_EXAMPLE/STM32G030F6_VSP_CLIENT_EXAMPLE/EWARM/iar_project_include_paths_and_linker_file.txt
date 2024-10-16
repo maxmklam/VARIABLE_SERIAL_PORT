@@ -1,0 +1,64 @@
+Include paths for compile:
+Copy the following and paste to IAR->Project->Options->C/C++ Compiler->Preprocessor->Additional include directories:(one per line)
+/*-----------------------------------------------------------------------------
+$PROJ_DIR$/../../Drivers/STM32G0xx_HAL_Driver/Inc
+$PROJ_DIR$/../../Drivers/CMSIS/Device/ST/STM32G0xx/Include
+$PROJ_DIR$/../../Drivers/CMSIS/Include
+$PROJ_DIR$/..
+$PROJ_DIR$/../Core/Inc
+$PROJ_DIR$/../myCode_MCU
+$PROJ_DIR$/../myCode_MCU/VSP_4_MCU
+$PROJ_DIR$/../..
+$PROJ_DIR$/../../myCode_STM32G0
+$PROJ_DIR$/../../myCode_STM32G0/myLIB_4_STM32G0
+$PROJ_DIR$/../../..
+$PROJ_DIR$/../../../VSP
+$PROJ_DIR$/../../../myLIB
+
+-----------------------------------------------------------------------------*/
+
+Post-build command line:
+/*-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------*/
+
+
+Copy the following and paste to IAR->Project->Options->C/C++ Compiler->Preprocessor
+
+Predefine file:
+/*-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------*/
+
+Defined symbols:(one per line)  
+/*-----------------------------------------------------------------------------
+USE_FULL_LL_DRIVER
+HSE_VALUE=8000000
+HSE_STARTUP_TIMEOUT=100
+LSE_STARTUP_TIMEOUT=5000
+LSE_VALUE=32768
+EXTERNAL_CLOCK_VALUE=12288000
+HSI_VALUE=16000000
+LSI_VALUE=32000
+VDD_VALUE=3300
+PREFETCH_ENABLE=1
+INSTRUCTION_CACHE_ENABLE=1
+DATA_CACHE_ENABLE=1
+STM32G030xx
+-----------------------------------------------------------------------------*/
+
+
+Copy the following and paste to IAR->Project->Options->Assembler->Preprocessor 
+
+Additional include directories:(one per line)
+/*-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------*/
+
+
+Copy the following and paste to IAR->Project->Options->Linker->Config->Override default: 
+
+Section define for Link
+/*-----------------------------------------------------------------------------
+$PROJ_DIR$/stm32g030xx_flash.icf
+-----------------------------------------------------------------------------*/

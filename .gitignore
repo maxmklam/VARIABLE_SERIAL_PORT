@@ -29,7 +29,7 @@
 *.dylib
 
 # Executables
-*.exe
+#*.exe
 *.out
 *.app
 *.i*86
@@ -50,3 +50,36 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#EWARM
+*pbi.dep
+*.ninja
+*.pbi
+*.xcl
+*.pbw
+*.browse
+*.pbd
+*.o
+*.map
+*.out
+*.hex
+.ninja_deps
+.ninja_log
+*.sim
+*.wsdt
+*.wsdt
+*.dbgdt
+*.dnx
+
+
+
+**/Debug
+
+#STM32CUBEMX
+**/STM32CUBEMX/Core
+**/STM32CUBEMX/Drivers
+**/STM32CUBEMX/EWARM
+**/STM32CUBEMX/.mxproject
+
+#except the files in the following subforder
+!*/Drivers/STM32Crypto/STM32CubeExpansion_SBSFU_V2.2.0/Middlewares/ST/STM32_Cryptographic/Fw_Crypto/STM32G0/Lib/*

@@ -2,9 +2,9 @@
 A new serial port (VSP) for data communication, can save transmission time from `5% up to 85%`, and support much faster bit rate comparing to UART.
  
 ## How it works
-It is done by only transmitting the meaningful bits, and omit all the redundant leading zeros of a byte. This is the most different portion VSP compare with UART. UART transmits value in fixed 8-bit binary bits, but VSP transmits value in variable-bit binary bits. For example: 
+It is done by only transmitting the meaningful bits, and omit all the redundant leading zeros of a byte. This is the most different portion of VSP comparing with UART. UART transmits value in fixed 8-bit binary bits, but VSP transmits value in variable-bit binary bits. For example: 
 - When transmitting a byte value `2`, UART will transmit the `2` in this way: `start 00000010 stop`. But for VSP, it will transmit like this: `start 10 stop`. Hence save 6 bits (65% savings).
-- In addition, when transmitting a byte value `253`, UART will transmit in this way: `start 11111100 stop`, while VSP will transmit like this: `start 00 stop`. Hence save 6 bits (65% savings). For details of how binary `00` can be used to represent decimal `253`, please see the illustration of Fig.1 below.  
+- In addition, when transmitting a byte value `253`, UART will transmit in this way: `start 11111100 stop`, while VSP will transmit like this: `start 00 stop`. Hence save 6 bits (65% savings). For details of how binary `00` can be used to represent decimal `253`, please see the illustration of Fig.1 below.
 
 
 Fig.1 illustrates this mechanism:
@@ -16,7 +16,7 @@ Fig.1 illustrates this mechanism:
 </p> <br /><br />
 
 
-From Fig.1 you can see the savings of VSP varies on different value of a byte to be sent. Note that the saving calculation is based on assumption of long repeating bytes to be sent, and ignore the first `start bit` and last `stop bit` in UART / VSP, for example:<br />
+From Fig.1 you can see the savings of VSP varies on different value of a byte to be sent. Note that the saving calculation is based on assumption that long repeating bytes to be sent, and ignore the first `start bit` and last `stop bit` in UART / VSP, for example:<br />
 <br />Sending long repeating byte value 0:
 ```
 UART: start 00000000 stop, start 00000000 stop, start 00000000 stop, ... start 00000000 stop
@@ -45,7 +45,7 @@ For byte = 253,  `byte = ~(256 - 253) = ~3 = ~B11 = B00`, hence bit `FS + 00 + F
 
 
 ## Protocol
-Similar to UART's `Start bit` and `Stop bit` symbols, VSP also defines the `Start bit (Frame Start - FS)` and `Stop bit (Frame End - FE)` symbols for transmission start and stop marking. An addition marking `Next Frame (NF)` is introduced for distinguishing byte by byte when sending multi-bytes as shown in Fig.2.
+Similar to UART's `Start bit` and `Stop bit` symbols, VSP also defines `Start bit (Frame Start - FS)` and `Stop bit (Frame End - FE)` symbols for transmission start and stop marking. An addition marking `Next Frame (NF)` is introduced for distinguishing byte by byte when sending multi-bytes as shown in Fig.2.
 
 <p align="center">
   <img src="./Github_img/vspsymbol.png" alt="VSP VSP symbols">
@@ -61,7 +61,7 @@ Similar to UART's `Start bit` and `Stop bit` symbols, VSP also defines the `Star
  Fig.3, VSP transmission formats
 </p> <br /><br /><br />
 
-VSP deploys BMC (Biphase Marking Coding) format for signal sending. Fig.4 shows the actual waveform of VSP for multi-bytes sending.
+VSP deploys BMC (Biphase Mark Coding) format for signal sending. Fig.4 shows the actual BMC waveform of VSP for multi-bytes sending.
 <p align="center">
   <img src="./Github_img/vspbmcwaveform.png" alt="VSP transmission waveform">
 </p>
@@ -71,17 +71,17 @@ VSP deploys BMC (Biphase Marking Coding) format for signal sending. Fig.4 shows 
 
 
 ## Examples
-Software example projects are done on both STM32G030F6 and STM32H750VB platforms for demonstrating the VSP transmission and reception features. Details on how to use the example projects please see `readme.txt` in the individual `STM32G0_EXAMPLE` and `STM32H7_EXAMPLE` folders.
+Software example projects are done on both STM32G030F6 and STM32H750VB platforms for demonstrating the VSP transmission and reception features. Details on how to use the example projects please see `readme.txt`in the individual [`STM32G0_EXAMPLE`](https://github.com/maxmklam/VARIABLE_SERIAL_PORT/blob/main/STM32G0_EXAMPLE/readme.txt) and [`STM32H7_EXAMPLE`](https://github.com/maxmklam/VARIABLE_SERIAL_PORT/blob/main/STM32H7_EXAMPLE/readme.txt) folders.
 
 For VSP transmission, two different approaches are taken: 
 ```
-- Transmission by using SPI + DMA.
-- Transmission by using timer output comparing + DMA.
+- Transmission by using SPI + DMA. In this approach the SPI MOSI pin is used to send out waveform in BMC format through DMA
+- Transmission by using TIMER output compare + DMA. In this approach the TIMER output compare pin is used to send out waveform in BMC format through DMA
 ```
 
 For VSP reception:
 ```
-- Reception by using timer input capture + DMA
+- Reception by using TIMER input capture + DMA. The BMC pulses are captured by TIMER input capture function through DMA, decode and recovered to raw data.
 ```
 
 Theoretically, VSP can achieve clock rate as high as SPI. However, since in the software implementation, timer output comparing and input capture function is used for transmission and reception respectively, due to speed limitation on STM32 series timer input capture pin, the only clock rate can achieve is:
@@ -92,6 +92,7 @@ Theoretically, VSP can achieve clock rate as high as SPI. However, since in the 
 
 <br /><br />
 ## Works to do
+- Support command sending from master to config the client, ie, operating speed, working mode etc.
 - Single wire bidirectional p2p
 - Single wire bidirectional multi-master with non-destructive arbitration
 - Huffman-coding-liked compression on transmission (good for large data transmission)

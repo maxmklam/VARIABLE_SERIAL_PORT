@@ -6,11 +6,22 @@
  Copyright (c) 2024 maxmklam 
  
  This file describes the use of projects STM32G030F6_VSP_MASTER_EXAMPLE and STM32G030F6_VSP_CLIENT_EXAMPLE for VSP transmission and reception example.
+ The project can only be oponed with IAR 9.xx
+ 
+ Structure of folder/file:
+ myLIB\ -- Contains all platform independent files which implement a blocking time delay function (in us resolution), and a non-blocking time elapse measurement function (in us resolution).
+ VSP\ -- Contains all platform independent files which implement all the VSP transmission and reception functions.
+ Core\ -- Contains platform dependent files generate by STM32CUBEMX, most are peripheral control related.
+ Drivers\ -- Driver files generate by STM32CUBEMX.
+ myCode_MCU\ -- Additional platform dependent files for that MCU of that project.
+ myCode_MCU\VSP_4_MCU\ -- Contains platform dependent files for the VSP\ folder.
+ myCode_STM32G0\ -- Contains all the files commonly accesible for all STM32G0 series MCU for all projects.
+ myCode_STM32G0\myLIB_4_STM32G0\ -- Contains platform dependent files for the myLIB\ folder
 ==============================================================================*/
 
 Approach 1:
-On master size, transmission using SPI + DMA
-On client size, reception using TIMER input capture + DMA
+On master side, transmission using SPI + DMA
+On client side, reception using TIMER input capture + DMA
 
 How to enable:
 in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h, 
@@ -34,6 +45,9 @@ in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h,
   |__________________________|                      |_________________________|
 
 
+
+How the VSP transmission using SPI + DMA works:
+Raw data (max 128 bytes) is passed into VSP_TX_data2bmc_encode_spi(), encoded in BMC format bit by bit, then packed byte by byte and saved in bmcTxBuff[] and sent by SPI MOSI pin through DMA
 
 
 
@@ -63,6 +77,12 @@ in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h,
   |                          |                      |                         |
   |__________________________|                      |_________________________|
 
+
+
+How the VSP transmission using TIMER output compare + DMA works:
+Raw data (max 128 bytes) is passed into VSP_TX_data2bmc_encode_tmr(), encoded in BMC format, one BMC bit requires one byte to represent, then saved in bmcTxBuff[] and sent by TIMER output compare pin by force active mode through DMA.
+In this approach, because one BMC bit needed one byte of data, that's why the bmcTxBuff[] buffer size is much larger than using SPI approach.
+Data contained in bmcTxBuff[] are look likes: 0x48, 0x58 which is written to TIMER register: CCMR1 to make the TIMER output compare pin become "low" or "high" respectively. Using this approach to continueously output BMC waveform on the TIMER output compare pin.
 
 
 

@@ -69,10 +69,10 @@ For example, byte to sent: 0, 1, 2, 3
           | |   |   | | |   | | |  |   | | | | |    |
           |_|   |___| |_|   |_| |__|   |_| |_| |____|
 
-6.on receiver side, the Tx waveform captured and saved in bmcRxBuff[] by DMA automatically by the TIMER input capture pin as below (assume TIMER clock is 64MHz, SPI is operated at 4MHz, width of one pulse = 64/4 = 16):
-    48, 16, 48, 48, 16, 16, 48, 16, 16, 32, 48, 16, 16, 64 
-    ----------- --- ------- --- ------  --- --- ------- ---
-        FS      NF     1    NF    1     0   NF   1  1   FE
+6.on receiver side, the Tx waveform captured and saved in bmcRxBuff[] by DMA automatically by the TIMER input capture pin as below (assume TIMER clock is 120MHz, SPI is operated at 24MHz, width of one pulse = 120/24 = 5):
+    15, 5, 15, 15, 5, 5, 15, 5, 5, 10, 15, 5, 5, 5, 5, 20 
+    ---------- --- ----- --- ----- --- --- ----- ----- --
+        FS     NF   1    NF    1    0  NF    1     1   FE
 
 7.Decode the received waveform value and we got bytes: 0, 1, 2, 3, and finally saved to rxRawBuff[]
 
@@ -132,10 +132,10 @@ For example, byte to sent: 0, 1, 2, 3
           | |   |   | | |   | | |  |   | | | | |    |
           |_|   |___| |_|   |_| |__|   |_| |_| |____|
 
-6.on receiver side, the Tx waveform captured and saved in bmcRxBuff[] by DMA automatically by the TIMER input capture pin as below (assume TIMER clock is 64MHz, TIMER period is operated at 4MHz, width of one pulse = 64/4 = 16):
-    48, 16, 48, 48, 16, 16, 48, 16, 16, 32, 48, 16, 16, 64 
-    ----------- --- ------- --- ------  --- --- ------- ---
-        FS      NF     1    NF    1     0   NF   1  1   FE
+6.on receiver side, the Tx waveform captured and saved in bmcRxBuff[] by DMA automatically by the TIMER input capture pin as below (assume TIMER clock is 120MHz, TIMER period is operated at 24MHz, width of one pulse = 120/24 = 5):
+    15, 5, 15, 15, 5, 5, 15, 5, 5, 10, 15, 5, 5, 5, 5, 20 
+    ---------- --- ----- --- ----- --- --- ----- ----- --
+        FS     NF   1    NF    1    0  NF    1     1   FE
 
 7.Decode the received waveform value and we got bytes: 0, 1, 2, 3, and finally saved to rxRawBuff[]
 

@@ -92,12 +92,14 @@ Theoretically, VSP can achieve clock rate as high as SPI. However, since in the 
 
 <br /><br />
 ## Works to do
-- Support command sending from master to config the client, ie, operating speed, working mode etc.
-- Single wire bidirectional p2p
-- Single wire bidirectional multi-master with non-destructive arbitration
+- Support command sending from master to config the client, eg, operating speed, working mode etc.
+- Single wire p2p bidirectional
+- Single wire multi-master bidirectional
+- Wireless p2p bidirectional
+- Wireless multi-master bidirectional
 - Huffman-coding-liked compression on transmission (good for large data transmission)
 - Differential value for transmission (good for image/video data transfer)
-- Single wire with fast DMA transmission for LCD 3-wire SPI (ALL DMA, data + command, 8bit RAM use instead of 16bit)
+- Single wire with fast DMA transmission for LCD 3-wire ppppSPI (ALL DMA, data + command, 8bit RAM use instead of 16bit)
 - Single wire interface for LCD TDDI
   
 

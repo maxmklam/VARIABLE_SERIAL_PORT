@@ -99,7 +99,7 @@ Theoretically, VSP can achieve clock rate as high as SPI. However, since in the 
 - Wireless multi-master bidirectional
 - Huffman-coding-liked compression on transmission (good for large data transmission)
 - Differential value for transmission (good for image/video data transfer)
-- Single wire with fast DMA transmission for LCD 3-wire ppppSPI (ALL DMA, data + command, 8bit RAM use instead of 16bit)
+- Single wire with fast DMA transmission for LCD 3-wire SPI (ALL DMA, data + command, 8bit RAM use instead of 16bit)
 - Single wire interface for LCD TDDI
   
 

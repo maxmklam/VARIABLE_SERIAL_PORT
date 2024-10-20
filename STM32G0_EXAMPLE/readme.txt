@@ -20,6 +20,7 @@
 ==============================================================================*/
 
 Approach 1:
+------------------------
 On master side, transmission using SPI + DMA
 On client side, reception using TIMER input capture + DMA
 
@@ -30,7 +31,7 @@ in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h,
    __________________________                       __________________________
   |         |    VSP tx      |                      |    VSP rx     |         |
   |         |                |                      |               |         |
-  |         | (PA.4)SPI2 MOSI|--------------------->|TIM1 CC1(PA.8) |         |
+  |         | SPI2 MOSI(PA.4)|--------------------->|TIM1 CC1(PA.8) |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
@@ -58,8 +59,9 @@ Data flow between the VSP Tx and Rx:
 
 
 Approach 2:
-On master size, transmission using TIMER output compare + DMA
-On client size, reception using TIMER input capture + DMA
+------------------------
+On master side, transmission using TIMER output compare + DMA
+On client side, reception using TIMER input capture + DMA
 
 How to enable:
 in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h, 
@@ -68,7 +70,7 @@ in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h,
    __________________________                       __________________________
   |         |    VSP tx      |                      |    VSP rx     |         |
   |         |                |                      |               |         |
-  |         | (PA.6)TIM16 CC1|--------------------->|TIM1 CC1(PA.8) |         |
+  |         | TIM16 CC1(PA.6)|--------------------->|TIM1 CC1(PA.8) |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
@@ -98,9 +100,16 @@ Data flow between the VSP Tx and Rx:
 
 
 
+
+
+
+
+
+
+VSP Tx/Rx full duplex:
+------------------------
 Basically both STM32G030F6_VSP_MASTER_EXAMPLE and STM32G030F6_VSP_CLIENT_EXAMPLE support VSP tx/rx, however, due to limits of RAM size, VSP tx/rx can't be enabled in one MCU at the same time.
-So you can only just select tx or rx each time, in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h, and
-STM32G030F6_VSP_CLIENT_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h
+So you can only just select tx or rx each time, in STM32G030F6_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h and STM32G030F6_VSP_CLIENT_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h
 
 #define  VSP_TX_ENABLE  1
 #define  VSP_RX_ENABLE  0

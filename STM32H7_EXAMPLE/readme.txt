@@ -20,6 +20,7 @@
 ==============================================================================*/
 
 Approach 1:
+------------------------
 On master side, transmission using SPI + DMA
 On client side, reception using TIMER input capture + DMA
 
@@ -30,7 +31,7 @@ in STM32H750VB_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h,
    __________________________                       __________________________
   |         |    VSP tx      |                      |    VSP rx     |         |
   |         |                |                      |               |         |
-  |         | (PB.8)SPI2 MOSI|--------------------->|TIM1 CC1(PE.9) |         |
+  |         | SPI2 MOSI(PB.8)|--------------------->|TIM1 CC1(PE.9) |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
@@ -57,8 +58,10 @@ Data flow between the VSP Tx and Rx:
 
 
 
-Approach 2:On master size, transmission using TIMER output compare + DMA
-On client size, reception using TIMER input capture + DMA
+Approach 2:
+------------------------
+On master side, transmission using TIMER output compare + DMA
+On client side, reception using TIMER input capture + DMA
 
 How to enable:
 in STM32H750VB_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h, 
@@ -67,7 +70,7 @@ in STM32H750VB_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h,
    __________________________                       __________________________
   |         |    VSP tx      |                      |    VSP rx     |         |
   |         |                |                      |               |         |
-  |         | (PA.6)TIM16 CC1|--------------------->|TIM1 CC1(PE.9) |         |
+  |         | TIM16 CC1(PA.6)|--------------------->|TIM1 CC1(PE.9) |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
   |         |                |                      |               |         |
@@ -97,9 +100,37 @@ Data flow between the VSP Tx and Rx:
 
 
 
+
+
+
+
+VSP Tx/Rx full duplex:
+------------------------
 Since STM32H750VB has pretty enough RAM resource, so both STM32H750VB_VSP_MASTER_EXAMPLE and STM32H750VB_VSP_CLIENT_EXAMPLE support VSP tx/rx at the same time.
-Done by enabling VSP_TX_ENABLE and VSP_RX_ENABLE at the same time in STM32H750VB_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h and, 
-STM32H750VB_VSP_CLIENT_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h 
+Done by enabling VSP_TX_ENABLE and VSP_RX_ENABLE at the same time in STM32H750VB_VSP_MASTER_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h and STM32H750VB_VSP_CLIENT_EXAMPLE\myCode_MCU\VSP_4_MCU\VSP_4_MCU.h 
 
 #define  VSP_TX_ENABLE  1
-#define  VSP_RX_ENABLE  0
+#define  VSP_RX_ENABLE  1
+
+
+
+   __________________________                       __________________________
+  |         |    VSP tx      |                      |    VSP rx     |         |
+  |         |                |                      |               |         |
+  |         | SPI2 MOSI(PB.8)|                      |               |         |
+  |         |       or       |--------------------->|TIM1 CC1(PE.9) |         |
+  |         | TIM16 CC1(PA.6)|                      |               |         |
+  |         |                |                      |               |         |
+  |         |                |                      |               |         |
+  |         |                |                      |SPI2 MOSI(PB.8)|         |
+  |         |  TIM1 CC1(PE.9)|<---------------------|       or      |         |
+  |         |                |                      |TIM16 CC1(PA.6)|         |
+  |         |                |                      |               |         |
+  |         |                |                      |               |         |
+  |         |________________|                      |_______________|         |
+  |                          |                      |                         |
+  |                          |                      |                         |
+  |    STM32H750VB master    |                      |    STM32H750VB client   |
+  |                       GND|______________________|GND                      |
+  |                          |                      |                         |
+  |__________________________|                      |_________________________|

@@ -64,7 +64,7 @@ For example, byte to sent: 0, 1, 2, 3
 
 3.pack the encoded binary bit to byte, and saved in bmcTxBuff[] = 11101110 00101110 10011101 01000011 (it requires 4 bytes of buffer size)
 4.transmit the bmcTxBuff[] bits using SPI.
-5.Tx waveform seen on the Rx pin: 
+5.Tx waveform seen on the SPI2 MOSI(PA.4) pin: 
   ________   ___     _   ___   _    ___   _   _      ________
           | |   |   | | |   | | |  |   | | | | |    |
           |_|   |___| |_|   |_| |__|   |_| |_| |____|
@@ -127,7 +127,7 @@ For example, byte to sent: 0, 1, 2, 3
 
 3.replace BMC bit "1" by "0x58", "0" by "0x48", and saved in bmcTxBuff[] = 0x58,0x58,0x58, 0x48, 0x58,0x58,0x58, 0x48,0x48,0x48, 0x58,0x48, 0x58,0x58,0x58, 0x48,0x58, 0x48,0x48, 0x58,0x58,0x58, 0x48,0x58, 0x48,0x58, 0x48,0x48,0x48,0x48 (it requires 30 bytes of buffer size)
 4.transmit the bmcTxBuff[] bits using TIMER output compare function force active mode.
-5.Tx waveform seen on the Rx pin: 
+5.Tx waveform seen on the TIM16 CC1(PA.6) pin: 
   ________   ___     _   ___   _    ___   _   _      ________
           | |   |   | | |   | | |  |   | | | | |    |
           |_|   |___| |_|   |_| |__|   |_| |_| |____|

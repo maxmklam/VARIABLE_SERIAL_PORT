@@ -9,7 +9,7 @@ It is done by only transmitting the meaningful bits, and omit all the redundant 
 
 Fig.1 illustrates this mechanism:
 <p align="center">
-  <img src="./Github_img/vpssavings.png" alt="VSP bit savings">
+  <img src="./Github_img/vpssavings.gif" alt="VSP bit savings">
 </p>
 <p align="center">
  Fig.1, VSP bit savings comparing with UART
@@ -48,25 +48,25 @@ For byte = 253,  `byte = ~(256 - 253) = ~3 = ~B11 = B00`, hence bit `FS + 00 + F
 Similar to UART's `Start bit` and `Stop bit` symbols, VSP also defines `Start bit (Frame Start - FS)` and `Stop bit (Frame End - FE)` symbols for transmission start and stop marking. An addition marking `Next Frame (NF)` is introduced for distinguishing byte by byte when sending multi-bytes as shown in Fig.2.
 
 <p align="center">
-  <img src="./Github_img/vspsymbol.png" alt="VSP VSP symbols">
+  <img src="./Github_img/vspsymbol.gif" alt="VSP symbol definition">
 </p>
 <p align="center">
- Fig.2, VSP symbols definition
+ Fig.2, VSP symbol definition
 </p> <br /><br /><br />                
 
 <p align="center">
-  <img src="./Github_img/vspformat.png" alt="VSP transmission formats">
+  <img src="./Github_img/vspformat.gif" alt="VSP frame format">
 </p>
 <p align="center">
- Fig.3, VSP transmission formats
+ Fig.3, VSP frame format
 </p> <br /><br /><br />
 
 VSP deploys BMC (Biphase Mark Coding) format for signal sending. Fig.4 shows the actual BMC waveform of VSP for multi-bytes sending.
 <p align="center">
-  <img src="./Github_img/vspbmcwaveform.png" alt="VSP transmission waveform">
+  <img src="./Github_img/vspbmcwaveform.gif" alt="VSP transmission waveform example">
 </p>
 <p align="center">
- Fig.3, VSP transmission waveform
+ Fig.3, VSP transmission waveform example
 </p> <br /><br />
 
 

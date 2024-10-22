@@ -1,4 +1,8 @@
 /*============= REVISION HISTORY ===============================================
+ 20241022   maxmklam
+ --------   --------------
+            - Refined CRC func
+
  20231026   maxmklam
  --------   --------------
             File Creation
@@ -59,13 +63,12 @@
 	 
 typedef struct _HWCRCcfg
 {
-	u32 CR; //CR register value
+	CRC_TypeDef *CRCx;
+	u32 CRval; //CR register value
 	u32 poly;
 	u32 initVal;
 	u8 endian;
-	//u8 crcSize;
-	//u8 reflIO;
-	u8 cont;
+	u8 cont; //indicate whether the data to do CRC is continuous packet from last operation or not
 } _HWCRCcfg;
 
 
@@ -73,10 +76,10 @@ typedef struct _HWCRCcfg
 
 u32 myHWCRC(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8);
 
-u32 myHWCRC32_LE_noRefIO(const u8 *pData, u32 Len8);
-u32 myHWCRC32_LE_RefIO(const u8 *pData, u32 Len8);
-u32 myHWCRC32_BE_noRefIO(const u8 *pData, u32 Len8);
-u32 myHWCRC32_BE_RefIO(const u8 *pData, u32 Len8);
+u32 myHWCRC32_LE_noRefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8);
+u32 myHWCRC32_LE_RefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8);
+u32 myHWCRC32_BE_noRefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8);
+u32 myHWCRC32_BE_RefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8);
 
 void myHWCRC_test(void);
 

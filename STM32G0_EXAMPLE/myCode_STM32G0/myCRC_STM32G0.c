@@ -1,4 +1,9 @@
 /*============= REVISION HISTORY ===============================================
+ 20241022   maxmklam
+ --------   --------------
+            - Refined CRC func
+            - Add HWCRCcfg.cont = 1 example for testing a separated packet.
+
  20231026   maxmklam
  --------   --------------
             File Creation
@@ -37,19 +42,19 @@ u32 myHWCRC(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 	u32 Data32;
 	
 
-	//check if reset CRC is needed
+	//check if reset HWCRCcfg->CRCx is needed
 	//-------------------------------------
-	if(HWCRCcfg->cont == 0)
+	if(HWCRCcfg->cont == 0) //if HWCRCcfg->cont = 1, the data is continuous packet from last operation, so just keep ALL register retained and go to do HWCRCcfg->CRCx directly.
 	{
-		if(HWCRCcfg->CR == LL_CRC_Read_IDR(CRC)) //if no setting change, then just reset CRC data reg, no need to program other reg
+		if(HWCRCcfg->CRval == LL_CRC_Read_IDR(HWCRCcfg->CRCx)) //if no setting change, then just reset HWCRCcfg->CRCx data reg, no need to program other reg
 		{
-			CRC->CR |= CRC_CR_RESET;
+			HWCRCcfg->CRCx->CR |= CRC_CR_RESET;
 		}
 		else
 		{
-			CRC->CR = CRC_CR_RESET | HWCRCcfg->CR;
-			LL_CRC_SetPolynomialCoef(CRC, HWCRCcfg->poly);
-			LL_CRC_Write_IDR(CRC, HWCRCcfg->CR); //Save setting
+			HWCRCcfg->CRCx->CR = CRC_CR_RESET | HWCRCcfg->CRval;
+			LL_CRC_SetPolynomialCoef(HWCRCcfg->CRCx, HWCRCcfg->poly);
+			LL_CRC_Write_IDR(HWCRCcfg->CRCx, HWCRCcfg->CRval); //Save setting
 		}
 	}
 	//-------------------------------------
@@ -59,7 +64,7 @@ u32 myHWCRC(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 	{
 		if(HWCRCcfg->endian == CRC_LE)
 		{
-			if(HWCRCcfg->CR & (HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL)) //non-reflect in/out
+			if(HWCRCcfg->CRval & (HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL)) //non-reflect in/out
 			{
 				Data32 = SWAPBYTE32(((u32*)pData)[i]);
 			}
@@ -71,7 +76,7 @@ u32 myHWCRC(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 		
 		else //if(HWCRCcfg->endian == CRC_BE)
 		{
-			if(HWCRCcfg->CR & (HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL)) //non-reflect in/out
+			if(HWCRCcfg->CRval & (HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL)) //non-reflect in/out
 			{
 				Data32 = ((u32*)pData)[i];
 			}
@@ -81,18 +86,18 @@ u32 myHWCRC(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 			}
 		}
 		
-		LL_CRC_FeedData32(CRC, Data32);
+		LL_CRC_FeedData32(HWCRCcfg->CRCx, Data32);
 	}
 
 	//Last bytes specific handling
 	Len8 = Len8 % 4;
 	for(int j=0; j<Len8; j++)
 	{
-		LL_CRC_FeedData8(CRC, pData[i*4+j]);
+		LL_CRC_FeedData8(HWCRCcfg->CRCx, pData[i*4+j]);
 	}
 
 		
-	return (LL_CRC_ReadData32(CRC));
+	return (LL_CRC_ReadData32(HWCRCcfg->CRCx));
 }
 
 
@@ -110,38 +115,38 @@ u32 myHWCRC(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
  @RETVAL: 
  @DESCRIBE:
 ==============================================================================*/
-u32 myHWCRC32_LE_noRefIO(const u8 *pData, u32 Len8)
+u32 myHWCRC32_LE_noRefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 {
 	u32 i;
 	u32 Len32 = Len8/4;
 	u32 Data32;
 
 	
-	CRC->CR = 0 //Crc config
+	HWCRCcfg->CRCx->CR = 0 //Crc config
 		| CRC_CR_RESET
 		| HWCRC_CRC32
 		| HWCRC_OUTPUT_NOREFL
 		| HWCRC_INPUT_NOREFL
 		;
-	LL_CRC_SetPolynomialCoef(CRC, 0x4C11DB7);
-	LL_CRC_SetInitialData(CRC, 0xFFFFFFFF);
+	LL_CRC_SetPolynomialCoef(HWCRCcfg->CRCx, 0x4C11DB7);
+	LL_CRC_SetInitialData(HWCRCcfg->CRCx, 0xFFFFFFFF);
 
 	
 	for(i=0; i<Len32; i++)
 	{
 		Data32 = ((u32*)pData)[i];
-		LL_CRC_FeedData32(CRC, Data32);
+		LL_CRC_FeedData32(HWCRCcfg->CRCx, Data32);
 	}
 
 	//Last bytes specific handling
 	Len8 = Len8 % 4;
 	for(int j=0; j<Len8; j++)
 	{
-		LL_CRC_FeedData8(CRC, pData[i*4+j]);
+		LL_CRC_FeedData8(HWCRCcfg->CRCx, pData[i*4+j]);
 	}
 
 		
-	return (LL_CRC_ReadData32(CRC));
+	return (LL_CRC_ReadData32(HWCRCcfg->CRCx));
 }
 
 /*==============================================================================
@@ -150,39 +155,39 @@ u32 myHWCRC32_LE_noRefIO(const u8 *pData, u32 Len8)
  @RETVAL: 
  @DESCRIBE:
 ==============================================================================*/
-u32 myHWCRC32_LE_RefIO(const u8 *pData, u32 Len8)
+u32 myHWCRC32_LE_RefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 {
 	u32 i;
 	u32 Len32 = Len8/4;
 	u32 Data32;
 
 	
-	CRC->CR = 0 //Crc config
+	HWCRCcfg->CRCx->CR = 0 //Crc config
 		| CRC_CR_RESET
 		| HWCRC_CRC32
 		| HWCRC_OUTPUT_REFL
 		| HWCRC_INPUT_REFL_BYTE
 		;
-	LL_CRC_SetPolynomialCoef(CRC, 0x4C11DB7);
-	LL_CRC_SetInitialData(CRC, 0xFFFFFFFF);
-	//LL_CRC_SetInputDataReverseMode(CRC, LL_CRC_INDATA_REVERSE_BYTE);
-	//LL_CRC_SetOutputDataReverseMode(CRC, LL_CRC_OUTDATA_REVERSE_BIT);
+	LL_CRC_SetPolynomialCoef(HWCRCcfg->CRCx, 0x4C11DB7);
+	LL_CRC_SetInitialData(HWCRCcfg->CRCx, 0xFFFFFFFF);
+	//LL_CRC_SetInputDataReverseMode(HWCRCcfg->CRCx, LL_CRC_INDATA_REVERSE_BYTE);
+	//LL_CRC_SetOutputDataReverseMode(HWCRCcfg->CRCx, LL_CRC_OUTDATA_REVERSE_BIT);
 
 	for(i=0; i<Len32; i++)
 	{
 		Data32 = ((u32*)pData)[i];
-		LL_CRC_FeedData32(CRC, Data32);
+		LL_CRC_FeedData32(HWCRCcfg->CRCx, Data32);
 	}
 
 	//Last bytes specific handling
 	Len8 = Len8 % 4;
 	for(int j=0; j<Len8; j++)
 	{
-		LL_CRC_FeedData8(CRC, pData[i*4+j]);
+		LL_CRC_FeedData8(HWCRCcfg->CRCx, pData[i*4+j]);
 	}
 
 		
-	return (LL_CRC_ReadData32(CRC));
+	return (LL_CRC_ReadData32(HWCRCcfg->CRCx));
 }
 
 
@@ -192,38 +197,38 @@ u32 myHWCRC32_LE_RefIO(const u8 *pData, u32 Len8)
  @RETVAL: 
  @DESCRIBE:
 ==============================================================================*/
-u32 myHWCRC32_BE_noRefIO(const u8 *pData, u32 Len8)
+u32 myHWCRC32_BE_noRefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 {
 	u32 i;
 	u32 Len32 = Len8/4;
 	u32 Data32;
 
 	
-	CRC->CR = 0 //Crc config
+	HWCRCcfg->CRCx->CR = 0 //Crc config
 		| CRC_CR_RESET
 		| HWCRC_CRC32
 		| HWCRC_OUTPUT_NOREFL
 		| HWCRC_INPUT_NOREFL
 		;
-	LL_CRC_SetPolynomialCoef(CRC, 0x4C11DB7);
-	LL_CRC_SetInitialData(CRC, 0xFFFFFFFF);
+	LL_CRC_SetPolynomialCoef(HWCRCcfg->CRCx, 0x4C11DB7);
+	LL_CRC_SetInitialData(HWCRCcfg->CRCx, 0xFFFFFFFF);
 
 	
 	for(i=0; i<Len32; i++)
 	{
 		Data32 = SWAPBYTE32(((u32*)pData)[i]);
-		LL_CRC_FeedData32(CRC, Data32);
+		LL_CRC_FeedData32(HWCRCcfg->CRCx, Data32);
 	}
 
 	//Last bytes specific handling
 	Len8 = Len8 % 4;
 	for(int j=0; j<Len8; j++)
 	{
-		LL_CRC_FeedData8(CRC, pData[i*4+j]);
+		LL_CRC_FeedData8(HWCRCcfg->CRCx, pData[i*4+j]);
 	}
 
 		
-	return (LL_CRC_ReadData32(CRC));
+	return (LL_CRC_ReadData32(HWCRCcfg->CRCx));
 }
 
 /*==============================================================================
@@ -232,39 +237,39 @@ u32 myHWCRC32_BE_noRefIO(const u8 *pData, u32 Len8)
  @RETVAL: 
  @DESCRIBE:
 ==============================================================================*/
-u32 myHWCRC32_BE_RefIO(const u8 *pData, u32 Len8)
+u32 myHWCRC32_BE_RefIO(struct _HWCRCcfg *HWCRCcfg, const u8 *pData, u32 Len8)
 {
 	u32 i;
 	u32 Len32 = Len8/4;
 	u32 Data32;
 
 	
-	CRC->CR = 0 //Crc config
+	HWCRCcfg->CRCx->CR = 0 //Crc config
 		| CRC_CR_RESET
 		| HWCRC_CRC32
 		| HWCRC_OUTPUT_REFL
 		| HWCRC_INPUT_REFL_BYTE
 		;
-	LL_CRC_SetPolynomialCoef(CRC, 0x4C11DB7);
-	LL_CRC_SetInitialData(CRC, 0xFFFFFFFF);
-	//LL_CRC_SetInputDataReverseMode(CRC, LL_CRC_INDATA_REVERSE_BYTE);
-	//LL_CRC_SetOutputDataReverseMode(CRC, LL_CRC_OUTDATA_REVERSE_BIT);
+	LL_CRC_SetPolynomialCoef(HWCRCcfg->CRCx, 0x4C11DB7);
+	LL_CRC_SetInitialData(HWCRCcfg->CRCx, 0xFFFFFFFF);
+	//LL_CRC_SetInputDataReverseMode(HWCRCcfg->CRCx, LL_CRC_INDATA_REVERSE_BYTE);
+	//LL_CRC_SetOutputDataReverseMode(HWCRCcfg->CRCx, LL_CRC_OUTDATA_REVERSE_BIT);
 
 	for(i=0; i<Len32; i++)
 	{
 		Data32 = SWAPBYTE32(((u32*)pData)[i]);
-		LL_CRC_FeedData32(CRC, Data32);
+		LL_CRC_FeedData32(HWCRCcfg->CRCx, Data32);
 	}
 
 	//Last bytes specific handling
 	Len8 = Len8 % 4;
 	for(int j=0; j<Len8; j++)
 	{
-		LL_CRC_FeedData8(CRC, pData[i*4+j]);
+		LL_CRC_FeedData8(HWCRCcfg->CRCx, pData[i*4+j]);
 	}
 
 		
-	return (LL_CRC_ReadData32(CRC));
+	return (LL_CRC_ReadData32(HWCRCcfg->CRCx));
 }
 
 
@@ -342,7 +347,7 @@ void myHWCRC_test(void)
 	u16 Crc16cal;
 	u32 Crc32cal;
 	
-	struct _HWCRCcfg HWCRCcfg;
+	struct _HWCRCcfg HWCRCcfg = {.CRCx = CRC};
 	
 	//For testing time measure
 	//-------------------------------
@@ -360,7 +365,7 @@ void myHWCRC_test(void)
 
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.poly = CRC8_POLY_9B; //0x9B
-	HWCRCcfg.CR = HWCRC_CRC8 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
+	HWCRCcfg.CRval = HWCRC_CRC8 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
 	Crc8cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -380,7 +385,7 @@ void myHWCRC_test(void)
 	
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.poly = CRC8_POLY_9B; //0x9B
-	HWCRCcfg.CR = HWCRC_CRC8 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
+	HWCRCcfg.CRval = HWCRC_CRC8 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
 	Crc8cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -407,7 +412,7 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_LE;
 	HWCRCcfg.poly = CRC16_POLY_1021; //0x1021
-	HWCRCcfg.CR = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
+	HWCRCcfg.CRval = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
 	Crc16cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -428,7 +433,7 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_LE;
 	HWCRCcfg.poly = CRC16_POLY_1021; //0x1021
-	HWCRCcfg.CR = HWCRC_CRC16 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
+	HWCRCcfg.CRval = HWCRC_CRC16 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
 	Crc16cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -449,7 +454,7 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_BE;
 	HWCRCcfg.poly = CRC16_POLY_1021; //0x1021
-	HWCRCcfg.CR = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
+	HWCRCcfg.CRval = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
 	Crc16cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -470,7 +475,7 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_BE;
 	HWCRCcfg.poly = CRC16_POLY_1021; //0x1021
-	HWCRCcfg.CR = HWCRC_CRC16 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
+	HWCRCcfg.CRval = HWCRC_CRC16 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
 	Crc16cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -497,7 +502,7 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_LE;
 	HWCRCcfg.poly = CRC32_POLY_04C11DB7; //0x4C11DB7
-	HWCRCcfg.CR = HWCRC_CRC32 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
+	HWCRCcfg.CRval = HWCRC_CRC32 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
 	Crc32cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -518,7 +523,7 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_LE;
 	HWCRCcfg.poly = CRC32_POLY_04C11DB7; //0x4C11DB7
-	HWCRCcfg.CR = HWCRC_CRC32 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
+	HWCRCcfg.CRval = HWCRC_CRC32 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
 	Crc32cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -540,7 +545,7 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_BE;
 	HWCRCcfg.poly = CRC32_POLY_04C11DB7; //0x4C11DB7
-	HWCRCcfg.CR = HWCRC_CRC32 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
+	HWCRCcfg.CRval = HWCRC_CRC32 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL;
 	Crc32cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
 	
 	//For testing time measure
@@ -561,9 +566,12 @@ void myHWCRC_test(void)
 	HWCRCcfg.cont = 0;
 	HWCRCcfg.endian = CRC_BE;
 	HWCRCcfg.poly = CRC32_POLY_04C11DB7; //0x4C11DB7
-	HWCRCcfg.CR = HWCRC_CRC32 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
-	Crc32cal = myHWCRC(&HWCRCcfg, DataTest, DATALEN);
-	
+	HWCRCcfg.CRval = HWCRC_CRC32 | HWCRC_INPUT_REFL_BYTE | HWCRC_OUTPUT_REFL;
+	Crc32cal = myHWCRC(&HWCRCcfg, DataTest, 16); //separate DATALEN to two parts for testing the HWCRCcfg.cont = 1.
+
+	HWCRCcfg.cont = 1; //1: continue from last operation
+	Crc32cal = myHWCRC(&HWCRCcfg, &DataTest[16], DATALEN -16); //separate DATALEN to two parts for testing the HWCRCcfg.cont = 1.
+
 	//For testing time measure
 	//-------------------------------
 	CrcTimTest1 = myTimebase_tick32();
@@ -574,16 +582,17 @@ void myHWCRC_test(void)
 		while(1) ;
 		////int dummy = 1;
 	}
-	
+
+
 	
 
 	
 	//CRC32 function with fixed config
 	//-------------------------------------------------------------------
-	Crc32cal = myHWCRC32_LE_noRefIO(DataTest, DATALEN); //need data swap
-	Crc32cal = myHWCRC32_LE_RefIO(DataTest, DATALEN); //need data swap
-	Crc32cal = myHWCRC32_BE_noRefIO(DataTest, DATALEN); //no need data swap
-	Crc32cal = myHWCRC32_BE_RefIO(DataTest, DATALEN); //no need data swap
+	Crc32cal = myHWCRC32_LE_noRefIO(&HWCRCcfg, DataTest, DATALEN); //need data swap
+	Crc32cal = myHWCRC32_LE_RefIO(&HWCRCcfg, DataTest, DATALEN); //need data swap
+	Crc32cal = myHWCRC32_BE_noRefIO(&HWCRCcfg, DataTest, DATALEN); //no need data swap
+	Crc32cal = myHWCRC32_BE_RefIO(&HWCRCcfg, DataTest, DATALEN); //no need data swap
 	
 }
 

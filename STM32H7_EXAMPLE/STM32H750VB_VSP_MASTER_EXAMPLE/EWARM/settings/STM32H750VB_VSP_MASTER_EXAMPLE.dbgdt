@@ -159,7 +159,7 @@
                     <item>gDevSPIvsp</item>
                     <item>txRawBuff</item>
                     <item>bmcTxBuff</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

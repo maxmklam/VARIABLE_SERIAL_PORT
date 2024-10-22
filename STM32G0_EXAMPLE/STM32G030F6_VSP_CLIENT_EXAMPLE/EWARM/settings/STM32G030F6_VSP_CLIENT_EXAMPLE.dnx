@@ -56,10 +56,10 @@
     <StLinkDriver>
         <stlinkserialNo>52FF6D064880575757301987</stlinkserialNo>
         <stlinkfoundProbes>52FF6D064880575757301987:6&amp;850A461&amp;0&amp;4:</stlinkfoundProbes>
-        <LeaveTargetRunning>_ 0</LeaveTargetRunning>
-        <CStepIntDis>_ 0</CStepIntDis>
         <stlinkResetStyle>0</stlinkResetStyle>
         <stlinkResetStrategy>0</stlinkResetStrategy>
+        <LeaveTargetRunning>_ 0</LeaveTargetRunning>
+        <CStepIntDis>_ 0</CStepIntDis>
     </StLinkDriver>
     <DebugChecksum>
         <Checksum>194030991</Checksum>

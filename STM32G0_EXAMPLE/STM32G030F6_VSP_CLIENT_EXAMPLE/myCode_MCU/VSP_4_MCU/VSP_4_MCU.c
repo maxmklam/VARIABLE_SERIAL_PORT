@@ -1,4 +1,8 @@
 /*============= REVISION HISTORY ===============================================
+ 20241022   maxmklam
+ --------   --------------
+            - Refined CRC func
+
  20231026   maxmklam
  --------   --------------
             File Creation
@@ -484,9 +488,10 @@ u16 VSP_LL_CRC16(const u8 *pData, u32 Len8)
 		
 	struct _HWCRCcfg HWCRCcfg = 
 	{
+		.CRCx = CRC,
 		.endian = CRC_LE,
 		.poly = CRC16_POLY_1021, //0x1021
-		.CR = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL,
+		.CRval = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL,
 	};
 	
 	crc16 = myHWCRC(&HWCRCcfg, pData, Len8);

@@ -22,10 +22,10 @@
     <StLinkDriver>
         <stlinkserialNo>54FF6C064987495116122387</stlinkserialNo>
         <stlinkfoundProbes>52FF6D064880575757301987:54FF6C064987495116122387:</stlinkfoundProbes>
-        <LeaveTargetRunning>_ 0</LeaveTargetRunning>
-        <CStepIntDis>_ 0</CStepIntDis>
         <stlinkResetStyle>0</stlinkResetStyle>
         <stlinkResetStrategy>0</stlinkResetStrategy>
+        <LeaveTargetRunning>_ 0</LeaveTargetRunning>
+        <CStepIntDis>_ 0</CStepIntDis>
     </StLinkDriver>
     <DebugChecksum>
         <Checksum>3489611761</Checksum>

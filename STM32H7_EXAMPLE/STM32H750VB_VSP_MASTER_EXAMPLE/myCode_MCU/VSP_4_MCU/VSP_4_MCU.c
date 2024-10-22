@@ -1,4 +1,8 @@
 /*============= REVISION HISTORY ===============================================
+ 20241022   maxmklam
+ --------   --------------
+            - Refined CRC func
+
  20231026   maxmklam
  --------   --------------
             File Creation
@@ -100,8 +104,8 @@ void VSP_LL_init(void)
 	//Re-setting SPI clock rate according to SPI register SPI_CFG1 MBR bit, and VSP register 1T-rate value
 	//----------------------
 	//u32 DIV = 240000000 / VSP_1TCLKRATE; //240000000 is SPI clock. //!!! 240000000 MUST be the same frequency for SPI as setting in LL_RCC_PLL2_SetN(240)
-	u32 DIV = 192000000 / VSP_1TCLKRATE; //192000000 is SPI clock. //!!! 192000000 MUST be the same frequency for SPI as setting in LL_RCC_PLL2_SetN(192)
-	//u32 DIV = 128000000 / VSP_1TCLKRATE; //128000000 is SPI clock. //!!! 128000000 MUST be the same frequency for SPI as setting in LL_RCC_PLL2_SetN(128)
+	//u32 DIV = 192000000 / VSP_1TCLKRATE; //192000000 is SPI clock. //!!! 192000000 MUST be the same frequency for SPI as setting in LL_RCC_PLL2_SetN(192)
+	u32 DIV = 128000000 / VSP_1TCLKRATE; //128000000 is SPI clock. //!!! 128000000 MUST be the same frequency for SPI as setting in LL_RCC_PLL2_SetN(128)
 		
 	LL_SPI_Disable(gDevSPIvsp.SPIx); //Disable SPI before can change setting
 	
@@ -481,9 +485,10 @@ u16 VSP_LL_CRC16(const u8 *pData, u32 Len8)
 		
 	struct _HWCRCcfg HWCRCcfg = 
 	{
+		.CRCx = CRC,
 		.endian = CRC_LE,
 		.poly = CRC16_POLY_1021, //0x1021
-		.CR = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL,
+		.CRval = HWCRC_CRC16 | HWCRC_INPUT_NOREFL | HWCRC_OUTPUT_NOREFL,
 	};
 	
 	crc16 = myHWCRC(&HWCRCcfg, pData, Len8);

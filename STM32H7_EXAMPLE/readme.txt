@@ -6,7 +6,7 @@
  Copyright (c) 2024 maxmklam 
  
  This file describes the use of projects STM32H750VB_VSP_MASTER_EXAMPLE and STM32H750VB_VSP_CLIENT_EXAMPLE for VSP transmission and reception example.
- The project is opened with IAR 9.xx
+ The project using pure STM32 LL layer and is opened with IAR 9.xx.
  
  Structure of folder/file:
  myLIB\ -- Contains all platform independent files which implement a blocking time delay function (in us resolution), and a non-blocking time elapse measurement function (in us resolution).

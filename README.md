@@ -39,8 +39,8 @@ Start from byte value larger than 128, a coding method is applied to achieve bit
 ```
 byte = ~(256 - byte), where ~ means take NOT operation of the value
 ```
-For example, for byte = 129, byte = ~(256 - 129) = ~127 = ~B1111111 = B0000000, where B means binary. So, seven bits: 0000000 is to be sent instead of eight bits: 10000001
-For byte = 253,  `byte = ~(256 - 253) = ~3 = ~B11 = B00`, hence bit `FS + 00 + FE` is used to represent `FS + 11111100 + FE` in order to save bits. <br /> <br />
+For example, for byte = 129, byte = ~(256 - 129) = ~127 = ~B1111111 = B0000000, where B means binary. So, seven bits: 0000000 is to be sent instead of eight bits: 10000001 <br />
+For byte = 253,  `byte = ~(256 - 253) = ~3 = ~B11 = B00`, hence bit `FS + 00 + FE` is used to represent `FS + 11111101 + FE` in order to save bits. <br /> <br />
 
 
 

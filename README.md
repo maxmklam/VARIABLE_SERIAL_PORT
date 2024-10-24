@@ -4,7 +4,7 @@ A new serial port (VSP) for data communication, can save transmission time from 
 ## How it works
 It is done by only transmitting the meaningful bits, and omit all the redundant leading zeros of a byte. This is the most different portion of VSP comparing with UART. UART transmits value in fixed 8-bit binary bits, but VSP transmits value in variable-bit binary bits. For example: 
 - When transmitting a byte value `2`, UART will transmit the `2` in this way: `start 00000010 stop`. But for VSP, it will transmit like this: `start 10 stop`. Hence save 6 bits (65% savings).
-- In addition, when transmitting a byte value `253`, UART will transmit in this way: `start 11111100 stop`, while VSP will transmit like this: `start 00 stop`. Hence save 6 bits (65% savings). For details of how binary `00` can be used to represent decimal `253`, please see the illustration of Fig.1 below.
+- In addition, when transmitting a byte value `253`, UART will transmit in this way: `start 11111101 stop`, while VSP will transmit like this: `start 00 stop`. Hence save 6 bits (65% savings). For details of how binary `00` can be used to represent decimal `253`, please see the illustration of Fig.1 below.
 
 
 Fig.1 illustrates this mechanism:

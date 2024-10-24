@@ -45,7 +45,7 @@ For byte = 253,  `byte = ~(256 - 253) = ~3 = ~B11 = B00`, hence bit `FS + 00 + F
 
 
 ## Protocol
-Similar to UART's `Start bit` and `Stop bit` symbols, VSP also defines `Start bit (Frame Start - FS)` and `Stop bit (Frame End - FE)` symbols for transmission start and stop marking. An addition marking `Next Frame (NF)` is introduced for distinguishing byte by byte when sending multi-bytes as shown in Fig.2.
+Similar to UART's `Start bit` and `Stop bit` symbols, VSP also defines `Start bit (Frame Start - FS)` and `Stop bit (Frame End - FE)` symbols for transmission start and stop marking. An addition marking `Next Frame (NF)` is introduced for distinguishing byte by byte when sending multi-bytes as shown in following Figures.
 
 <p align="center">
   <img src="./Github_img/vspsymbol.gif" alt="VSP symbol definition">
